@@ -19,12 +19,15 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void setButtons();
+    QPushButton* botton[3][3];
+
+
 
 private:
     Ui::MainWindow *ui;
 
-    QWidget* wdg;
+    void set_buttons();
+
 
 
 };
