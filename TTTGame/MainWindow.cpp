@@ -33,7 +33,16 @@ void MainWindow::reset()
 
             QString label = "%1 %2";
             label = label.arg(i).arg(j);
-            button[i][j]->setText(label);
+            //button[i][j]->setText(label);
+
+            //QPixmap pixmap("/Users/xXxMrMayhemxXx/Documents/GitHub/Tic-Tac-Toe-AI-Alpha_Beta-Monte_Carlo-QT_GUI-/TTTGame/img/nada.png");
+            //QIcon ButtonIcon(pixmap);
+            //button[i][j]->setIcon(QIcon());
+
+            button[i][j]->setStyleSheet("font: bold;background-color: gray;font-size: 10px;height: 50px;width: 50px;");
+
+
+            button[i][j]->setIconSize(QSize(ICON_SIZE, ICON_SIZE));
 
 
             connect(button[i][j], SIGNAL(clicked()), this, SLOT(button_interrupt()));
@@ -50,8 +59,13 @@ void MainWindow::button_interrupt()
 
     QPushButton * button_pushed = ((QPushButton *)sender());
 
-    button_pushed->setText(QString("pushed"));
-    button_pushed->setIcon(QIcon(":/img/negra.png"));
+   // button_pushed->setText(QString("pushed"));
+
+    QPixmap pixmap("/Users/xXxMrMayhemxXx/Documents/GitHub/Tic-Tac-Toe-AI-Alpha_Beta-Monte_Carlo-QT_GUI-/TTTGame/img/blanca.png");
+    QIcon ButtonIcon(pixmap);
+    button_pushed->setIcon(ButtonIcon);
+    button_pushed->setIconSize(QSize(ICON_SIZE, ICON_SIZE));
+
     button_pushed->disconnect();
 
 }
