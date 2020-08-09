@@ -4,8 +4,12 @@
 #include <QMainWindow>
 #include <QGridLayout>
 #include <QPushButton>
+#include <QMessageBox>
+#include <QtGui>
+#include <QLabel>
 
-#define LOOP(var, i, end_plus1) for (var = i; var < end_plus1; var++)
+#include "TTT_state.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,14 +23,25 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    QPushButton* botton[3][3];
+    QPushButton *button[TTT_SIZE][TTT_SIZE];
+
+    QHBoxLayout *row_layout[TTT_SIZE];
+    QHBoxLayout *main;
+    QVBoxLayout *vertical_layout;
+
+    QWidget *ventana;
 
 
+
+
+private slots:
+     void button_interrupt();
+     void reset();
 
 private:
     Ui::MainWindow *ui;
+    void define();
 
-    void set_buttons();
 
 
 

@@ -11,63 +11,14 @@
 
 #include <QApplication>
 
-
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     MainWindow w;
-    w.show();
-
-/* ---------------------------------------------------------------------------------------
-    QGridLayout *grid = new QGridLayout();
-    QPushButton *b_1 = new QPushButton("A");
-    QPushButton *b_2 = new QPushButton("B");
-    QPushButton *b_3 = new QPushButton("C");
-
-    grid->addWidget(b_1,0,0,1,1);
-    grid->addWidget(b_2,1,0,1,1);
-    grid->addWidget(b_3,3,0,1,1);
-
-    QWidget *ww = new QWidget();
-    ww->setLayout(grid);
-
-    ww->show();
-//---------------------------------------------------------------------------------------*/
-
-    int N = 10;
-
-    QGridLayout *layout = new QGridLayout();
-    QPushButton* b[N][N];
-
-    int i, j;
-    LOOP(i, 0, N)
-        LOOP(j, 0, N)
-        {
-            b[i][j] = new QPushButton("A");
-        }
 
 
 
-    QWidget *ww = new QWidget();
-
-    LOOP(i,0,N)
-    {
-        layout->setRowStretch(i, 1);
-        LOOP(j,0,N)
-        {
-            if (i == 0)
-            {
-               layout->setColumnStretch(j,1);
-            }
-            layout->addWidget(b[i][j], i, j, 1,1);
-        }
-    }
-
-    ww->setLayout(layout);
-    ww->show();
-
-
-
+     w.show();
 
 
 
