@@ -17,14 +17,19 @@ MainWindow::MainWindow(QWidget *parent)
     this->setAutoFillBackground(true);
     this->setPalette(pal);
 
+
     define();
+    qDebug() <<"\n First Player: " << state.get_player();
+    if (state.get_player() == 'X') emit ai_play_interrupt();
+
+
 }
+
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-
 
 
 
@@ -62,56 +67,22 @@ void MainWindow::reset()
 
             button[i][j]->setProperty("row", i);
             button[i][j]->setProperty("col", j);
-            button[i][j]->setProperty("play", state.get_player());
 
-            connect(button[i][j], SIGNAL(clicked()), this, SLOT(button_interrupt()));
+            connect(button[i][j], SIGNAL(clicked()), this, SLOT(button_ISR()));
 
         }
-
-
+    connect(this, &MainWindow::ai_play_interrupt, this, &MainWindow::ai_play_ISR);
+    connect(this, &MainWindow::terminal_interrupt, this, &MainWindow::terminal_ISR);
 
 }
-
-void MainWindow::button_interrupt()
-{
-   // QMessageBox::information(this, "d" , "Button has been clicked!");
-
-    QPushButton * button_pushed = ((QPushButton *)sender());
-
-    int i_1 = button_pushed->property("row").toInt();
-    int i_2 = button_pushed->property("col").toInt();
-
-    qDebug() << "(" << i_1 << ", " << i_2 << ") \n";
-    qDebug() << button_pushed->property("play").toChar() << "\n";
-
-
-
-    state.transition(i_1, i_2);
-    //state.print_board();
-
-
-    button_pushed->setText(QString());
-
-    QPixmap pixmap("/Users/xXxMrMayhemxXx/Documents/GitHub/Tic-Tac-Toe-AI-Alpha_Beta-Monte_Carlo-QT_GUI-/TTTGame/img/p1.png");
-
-
-    QIcon ButtonIcon(pixmap);
-    button_pushed->setIcon(ButtonIcon);
-    button_pushed->setIconSize(QSize(ICON_SIZE, ICON_SIZE));
-
-
-
-    button_pushed->disconnect();
-}
-
-
 
 
 void MainWindow::define()
 {
+    reset();
+
     ventana = new QWidget();
 
-    reset();
 
 
     int i,j;
@@ -137,6 +108,97 @@ void MainWindow::define()
 
     ventana->setLayout(main);
     MainWindow::setCentralWidget(ventana);
+}
+
+void MainWindow::enable_buttons(bool en)
+{
+    int i, j;
+    LOOP(i,0,TTT_SIZE)
+            LOOP(j,0,TTT_SIZE)
+                button[i][j]->setEnabled(en);
+}
+
+
+
+//----------------------------------------------AI Interrupt Handler-----------------------------------------------------
+void MainWindow::ai_play_ISR()
+{
+    int i, j;
+    enable_buttons(false);
+
+    MCTree mytree;
+    tuple<int, int> optimal;
+
+    optimal = mytree.UCT_search(state, 1.0/sqrt(2.0), 100); //satisfies Hoeffding Ineqality: 1.0/sqrt(2.0)
+    i = std::get<0>(optimal);
+    j = std::get<1>(optimal);
+
+    qDebug() << "\n" << state.get_player() << ": ";
+    qDebug() << "(" << i << ", " << j << ")";
+
+    state.transition(i, j);
+
+    button[i][j]->setText(QString());
+    QPixmap pixmap("/Users/xXxMrMayhemxXx/Documents/GitHub/Tic-Tac-Toe-AI-Alpha_Beta-Monte_Carlo-QT_GUI-/TTTGame/img/p2.png");
+    QIcon ButtonIcon(pixmap);
+
+    button[i][j]->setIcon(ButtonIcon);
+    button[i][j]->setIconSize(QSize(ICON_SIZE, ICON_SIZE));
+    button[i][j]->disconnect();
+
+
+    if (state.get_termina()) emit terminal_interrupt();
+    enable_buttons(true);
+}
+//-------------------------------------------------------------------------------------------------------------------------
+
+
+//----------------------------------------------Button Interrupt Handler---------------------------------------------------
+void MainWindow::button_ISR()
+{
+    QPushButton * button_pushed = ((QPushButton *)sender());
+
+    int i_1 = button_pushed->property("row").toInt();
+    int i_2 = button_pushed->property("col").toInt();
+
+
+    qDebug() << "\n" << state.get_player() << ": ";
+    qDebug() << "(" << i_1 << ", " << i_2 << ")";
+
+    state.transition(i_1, i_2);
+
+
+    button_pushed->setText(QString());
+    QPixmap pixmap("/Users/xXxMrMayhemxXx/Documents/GitHub/Tic-Tac-Toe-AI-Alpha_Beta-Monte_Carlo-QT_GUI-/TTTGame/img/p1.png");
+    QIcon ButtonIcon(pixmap);
+    button_pushed->setIcon(ButtonIcon);
+    button_pushed->setIconSize(QSize(ICON_SIZE, ICON_SIZE));
+
+    button_pushed->disconnect();
+
+    if (state.get_termina()) emit terminal_interrupt();
+    emit ai_play_interrupt();
+
+}
+//--------------------------------------------------------------------------------------------------------------------------
+
+
+//----------------------------------------------Terminal Interrupt Handler--------------------------------------------------
+void MainWindow::terminal_ISR()
+{
+    enable_buttons(false);
+
+    char winner = state.get_player();
+    if (winner == 'O')
+    {
+        QMessageBox::information(this, "Lose", "ΑΙ has won :(");
+    }
+    else if (winner == 'X')
+    {
+        QMessageBox::information(this, "Win", "You has won :)");
+    }
+    else thrrow("ERROR: TERMINAL ISR")
+
 }
 
 

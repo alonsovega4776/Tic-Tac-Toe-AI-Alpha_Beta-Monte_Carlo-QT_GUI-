@@ -7,8 +7,8 @@
 
 #ifndef TTT_STATE_H_
 #define TTT_STATE_H_
-#define TTT_SIZE 20
-#define TTT_WIN_SIZE 10
+#define TTT_SIZE 10
+#define TTT_WIN_SIZE 4
 
 #include "Graph.h"
 #include <tuple>

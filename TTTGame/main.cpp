@@ -6,8 +6,6 @@
  */
 
 #include "MainWindow.h"
-#include "MCTree.h"
-#include "MinMax.h"
 
 #include <QApplication>
 

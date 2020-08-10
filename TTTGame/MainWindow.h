@@ -9,7 +9,7 @@
 #include <QLabel>
 #include <QDebug>
 
-#include "TTT_state.h"
+#include "MCTree.h"
 
 #define ICON_SIZE 50
 
@@ -34,16 +34,23 @@ public:
 
     QWidget *ventana;
 
+
 signals:
-    void ai_play();
+    void ai_play_interrupt();
+    void terminal_interrupt();
+
 
 private slots:
-    void button_interrupt();
-    void reset();
+    void button_ISR();
+    void ai_play_ISR();
+    void terminal_ISR();
 
 private:
     Ui::MainWindow *ui;
+
+    void reset();
     void define();
+    void enable_buttons(bool en);
 
     TTT_state state;
 
