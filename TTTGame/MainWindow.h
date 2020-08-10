@@ -34,6 +34,8 @@ public:
 
     QWidget *ventana;
 
+signals:
+    void ai_play();
 
 private slots:
     void button_interrupt();

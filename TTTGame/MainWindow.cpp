@@ -86,14 +86,13 @@ void MainWindow::button_interrupt()
 
 
 
-    //state.transition(i_1, i_2);
+    state.transition(i_1, i_2);
     //state.print_board();
 
 
     button_pushed->setText(QString());
 
     QPixmap pixmap("/Users/xXxMrMayhemxXx/Documents/GitHub/Tic-Tac-Toe-AI-Alpha_Beta-Monte_Carlo-QT_GUI-/TTTGame/img/p1.png");
-
 
 
     QIcon ButtonIcon(pixmap);
