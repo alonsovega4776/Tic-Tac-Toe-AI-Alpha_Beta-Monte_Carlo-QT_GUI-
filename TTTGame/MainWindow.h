@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include <QtGui>
 #include <QLabel>
+#include <QDebug>
 
 #include "TTT_state.h"
 
@@ -34,15 +35,15 @@ public:
     QWidget *ventana;
 
 
-
-
 private slots:
-     void button_interrupt();
-     void reset();
+    void button_interrupt();
+    void reset();
 
 private:
     Ui::MainWindow *ui;
     void define();
+
+    TTT_state state;
 
 
 

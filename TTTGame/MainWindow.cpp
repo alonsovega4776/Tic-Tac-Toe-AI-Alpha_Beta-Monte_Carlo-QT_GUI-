@@ -23,8 +23,6 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
-
-
 }
 
 
@@ -62,6 +60,10 @@ void MainWindow::reset()
 
             button[i][j]->setIconSize(QSize(ICON_SIZE, ICON_SIZE));
 
+            button[i][j]->setProperty("row", i);
+            button[i][j]->setProperty("col", j);
+            button[i][j]->setProperty("play", state.get_player());
+
             connect(button[i][j], SIGNAL(clicked()), this, SLOT(button_interrupt()));
 
         }
@@ -76,15 +78,31 @@ void MainWindow::button_interrupt()
 
     QPushButton * button_pushed = ((QPushButton *)sender());
 
+    int i_1 = button_pushed->property("row").toInt();
+    int i_2 = button_pushed->property("col").toInt();
+
+    qDebug() << "(" << i_1 << ", " << i_2 << ") \n";
+    qDebug() << button_pushed->property("play").toChar() << "\n";
+
+
+
+    //state.transition(i_1, i_2);
+    //state.print_board();
+
+
     button_pushed->setText(QString());
 
-    QPixmap pixmap("/Users/xXxMrMayhemxXx/Documents/GitHub/Tic-Tac-Toe-AI-Alpha_Beta-Monte_Carlo-QT_GUI-/TTTGame/img/p2.png");
+    QPixmap pixmap("/Users/xXxMrMayhemxXx/Documents/GitHub/Tic-Tac-Toe-AI-Alpha_Beta-Monte_Carlo-QT_GUI-/TTTGame/img/p1.png");
+
+
+
     QIcon ButtonIcon(pixmap);
     button_pushed->setIcon(ButtonIcon);
     button_pushed->setIconSize(QSize(ICON_SIZE, ICON_SIZE));
 
-    button_pushed->disconnect();
 
+
+    button_pushed->disconnect();
 }
 
 
@@ -120,8 +138,6 @@ void MainWindow::define()
 
     ventana->setLayout(main);
     MainWindow::setCentralWidget(ventana);
-
-
 }
 
 
