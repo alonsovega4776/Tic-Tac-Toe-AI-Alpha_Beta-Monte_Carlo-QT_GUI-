@@ -148,8 +148,11 @@ void MainWindow::ai_play_ISR()
     MCTree mytree;
     tuple<int, int> optimal;
 
-    optimal = mytree.UCT_search(state, 0.2, 10); //satisfies Hoeffding Ineqality: 1.0/sqrt(2.0)
-    //optimal = MinMax::αβ_search(state);
+    int t = state.get_time();
+    if (t > 25)      optimal = MinMax::αβ_search(state);
+    else if (t < 5) optimal = mytree.UCT_search(state, 0.5, 1000); //satisfies Hoeffding Ineqality: 1.0/sqrt(2.0)
+    else             optimal = mytree.UCT_search(state, 0.85, 5000);
+
     i = std::get<0>(optimal);
     j = std::get<1>(optimal);
 

@@ -117,9 +117,9 @@ tuple<int, int> MCTree::UCT_search(TTT_state x_t, double c_p, int N_root)
 		back_up(v_l, Δ);								// Update statistics
 	}
 
-    if (best_child_ind(root, 0) == best_child_ind_N(root)) 						// finished only if node with max score is also most explored node
+//    if (best_child_ind(root, 0) == best_child_ind_N(root)) 						// finished only if node with max score is also most explored node
 		return root->get_children()[best_child_ind(root, 0)]->get_input_control();
-//	/*
+    /*
 	else
 	{
 		delete root;
@@ -174,6 +174,11 @@ TNode* MCTree::expand(TNode* v_t)														// random input control
 	std::random_device rand_dev;
 	std::mt19937 gen(rand_dev());
 	std::uniform_int_distribution<> unif(0, U_unexpanded.size()-1);					// select control from uniform dist. in control space
+
+
+
+
+
 
 	set< tuple<int, int> >::iterator rand_control_iter = U_unexpanded.begin();
 	std::advance(rand_control_iter, unif(gen));
