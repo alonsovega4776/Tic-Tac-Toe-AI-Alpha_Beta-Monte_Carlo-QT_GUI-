@@ -1,3 +1,10 @@
+/*
+ * TTT_state.h
+ *
+ *  Created on: Aug 5, 2020
+ *  Author: Alonso Vega
+ */
+
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
@@ -118,6 +125,18 @@ void MainWindow::enable_buttons(bool en)
                 button[i][j]->setEnabled(en);
 }
 
+void MainWindow::disconnect_everything()
+{
+    int i,j;
+    LOOP(i, 0, TTT_SIZE)
+        LOOP(j, 0, TTT_SIZE)
+            disconnect(button[i][j], SIGNAL(clicked()), this, SLOT(button_ISR()));
+
+    disconnect(this, &MainWindow::ai_play_interrupt, this, &MainWindow::ai_play_ISR);
+    disconnect(this, &MainWindow::terminal_interrupt, this, &MainWindow::terminal_ISR);
+
+}
+
 
 
 //----------------------------------------------AI Interrupt Handler-----------------------------------------------------
@@ -129,7 +148,8 @@ void MainWindow::ai_play_ISR()
     MCTree mytree;
     tuple<int, int> optimal;
 
-    optimal = mytree.UCT_search(state, 1.0/sqrt(2.0), 100); //satisfies Hoeffding Ineqality: 1.0/sqrt(2.0)
+    optimal = mytree.UCT_search(state, 0.2, 10); //satisfies Hoeffding Ineqality: 1.0/sqrt(2.0)
+    //optimal = MinMax::αβ_search(state);
     i = std::get<0>(optimal);
     j = std::get<1>(optimal);
 
@@ -187,6 +207,8 @@ void MainWindow::button_ISR()
 void MainWindow::terminal_ISR()
 {
     enable_buttons(false);
+    disconnect_everything();
+
 
     char winner = state.get_player();
     if (winner == 'O')
@@ -198,8 +220,7 @@ void MainWindow::terminal_ISR()
         QMessageBox::information(this, "Win", "You has won :)");
     }
     else thrrow("ERROR: TERMINAL ISR")
-
 }
-
+//--------------------------------------------------------------------------------------------------------------------------
 
 

@@ -2,6 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+/*
+ * TTT_state.h
+ *
+ *  Created on: Aug 5, 2020
+ *  Author: Alonso Vega
+ */
 #include <QGridLayout>
 #include <QPushButton>
 #include <QMessageBox>
@@ -10,6 +16,7 @@
 #include <QDebug>
 
 #include "MCTree.h"
+#include "MinMax.h"
 
 #define ICON_SIZE 50
 
@@ -51,6 +58,7 @@ private:
     void reset();
     void define();
     void enable_buttons(bool en);
+    void disconnect_everything();
 
     TTT_state state;
 
