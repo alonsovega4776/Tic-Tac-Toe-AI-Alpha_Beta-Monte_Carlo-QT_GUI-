@@ -13,12 +13,7 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     MainWindow w;
-
-
-
-
-
-     w.show();
+    //w.show();
 
 
 
@@ -202,8 +197,16 @@ int main(int argc, char *argv[])
 //  --------------------------------------------------------------------------------------------------------------------------*/
 
 
+    std::random_device rd{};
+    std::mt19937 gen{rd()};
+    std::normal_distribution<> n_sample{5, 2};
+
+    cout << "\n sample: " << n_sample(gen) << "\n";
+    int i;
+    LOOP(i, 0, 30)cout << std::round(n_sample(gen)) << "\n \n";
 
 
-    return app.exec();
+    return 0;
+    //return app.exec();
 }
 
