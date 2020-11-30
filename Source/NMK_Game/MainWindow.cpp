@@ -1,5 +1,5 @@
 /*
- * TTT_state.h
+ * MainWindow.cpp
  *
  *  Created on: Aug 5, 2020
  *  Author: Alonso Vega
@@ -162,7 +162,7 @@ void MainWindow::ai_play_ISR()
     state.transition(i, j);
 
     button[i][j]->setText(QString());
-    QPixmap pixmap("/Users/xXxMrMayhemxXx/Documents/GitHub/Tic-Tac-Toe-AI-Alpha_Beta-Monte_Carlo-QT_GUI-/TTTGame/img/p2.png");
+    QPixmap pixmap("/Users/xXxMrMayhemxXx/Documents/GitHub/Tic-Tac-Toe-AI-Alpha_Beta-Monte_Carlo-QT_GUI-/Source/NMK_Game/img/p2.png");
     QIcon ButtonIcon(pixmap);
 
     button[i][j]->setIcon(ButtonIcon);
@@ -192,7 +192,7 @@ void MainWindow::button_ISR()
 
 
     button_pushed->setText(QString());
-    QPixmap pixmap("/Users/xXxMrMayhemxXx/Documents/GitHub/Tic-Tac-Toe-AI-Alpha_Beta-Monte_Carlo-QT_GUI-/TTTGame/img/p1.png");
+    QPixmap pixmap("/Users/xXxMrMayhemxXx/Documents/GitHub/Tic-Tac-Toe-AI-Alpha_Beta-Monte_Carlo-QT_GUI-/Source/NMK_Game/img/p1.png");
     QIcon ButtonIcon(pixmap);
     button_pushed->setIcon(ButtonIcon);
     button_pushed->setIconSize(QSize(ICON_SIZE, ICON_SIZE));

@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 /*
- * TTT_state.h
+ * MainWindow.h
  *
  *  Created on: Aug 5, 2020
  *  Author: Alonso Vega

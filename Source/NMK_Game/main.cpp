@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     MainWindow w;
-    //w.show();
+    w.show();
 
 
 
@@ -197,6 +197,7 @@ int main(int argc, char *argv[])
 //  --------------------------------------------------------------------------------------------------------------------------*/
 
 
+/* ------------------------------------------------------------------------------TEST: teasting normal distribution
     std::random_device rd{};
     std::mt19937 gen{rd()};
     std::normal_distribution<> n_sample{5, 2};
@@ -205,8 +206,10 @@ int main(int argc, char *argv[])
     int i;
     LOOP(i, 0, 30)cout << std::round(n_sample(gen)) << "\n \n";
 
+//  -------------------------------------------------------------------------*/
 
-    return 0;
-    //return app.exec();
+
+    //return 0;
+    return app.exec();
 }
 
