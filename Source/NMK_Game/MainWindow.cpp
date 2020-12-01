@@ -149,8 +149,8 @@ void MainWindow::ai_play_ISR()
     tuple<int, int> optimal;
 
     int t = state.get_time();
-    if (t > 25)      optimal = MinMax::αβ_search(state);
-    else if (t < 5) optimal = mytree.UCT_search(state, 0.5, 1000); //satisfies Hoeffding Ineqality: 1.0/sqrt(2.0)
+    if (t > 50)      optimal = MinMax::αβ_search(state);
+    else if (t < 50)  optimal = mytree.UCT_search(state, 0.5, 1000); //satisfies Hoeffding Ineqality: 1.0/sqrt(2.0)
     else             optimal = mytree.UCT_search(state, 0.85, 5000);
 
     i = std::get<0>(optimal);
@@ -162,7 +162,7 @@ void MainWindow::ai_play_ISR()
     state.transition(i, j);
 
     button[i][j]->setText(QString());
-    QPixmap pixmap("/Users/xXxMrMayhemxXx/Documents/GitHub/Tic-Tac-Toe-AI-Alpha_Beta-Monte_Carlo-QT_GUI-/Source/NMK_Game/img/p2.png");
+    QPixmap pixmap("/Users/xXxMrMayhemxXx/Documents/GitHub/Tic-Tac-Toe-AI-Alpha_Beta-Monte_Carlo-QT_GUI-/Source/NMK_Game/img/blanca.png");
     QIcon ButtonIcon(pixmap);
 
     button[i][j]->setIcon(ButtonIcon);
@@ -192,7 +192,7 @@ void MainWindow::button_ISR()
 
 
     button_pushed->setText(QString());
-    QPixmap pixmap("/Users/xXxMrMayhemxXx/Documents/GitHub/Tic-Tac-Toe-AI-Alpha_Beta-Monte_Carlo-QT_GUI-/Source/NMK_Game/img/p1.png");
+    QPixmap pixmap("/Users/xXxMrMayhemxXx/Documents/GitHub/Tic-Tac-Toe-AI-Alpha_Beta-Monte_Carlo-QT_GUI-/Source/NMK_Game/img/negra.png");
     QIcon ButtonIcon(pixmap);
     button_pushed->setIcon(ButtonIcon);
     button_pushed->setIconSize(QSize(ICON_SIZE, ICON_SIZE));

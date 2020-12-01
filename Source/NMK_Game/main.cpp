@@ -11,9 +11,9 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
-    MainWindow w;
-    w.show();
+    //QApplication app(argc, argv);
+    //MainWindow w;
+    //w.show();
 
 
 
@@ -33,18 +33,16 @@ int main(int argc, char *argv[])
 /* ------------------------------------------------------------------------- TEST: stack for constructing graph
     std::set<int> Z_3 = {0,1,2,3,4,5,6,7,8};
 
-    FOR_EACH(Z_3.begin(), Z_3.end(), int x)
-        cout << x;
-    END_FOR_EACH
-    cout << "\n";
-
     std::set<int>::iterator i;
 
     std::stack<int> my_stack;
 
     std::set<int>::iterator set_iter;
     for(set_iter = Z_3.begin(); set_iter != Z_3.end(); set_iter++)
+    {
+        cout << *set_iter;
         my_stack.push(*set_iter);
+    }
 
     while(!my_stack.empty())
     {
@@ -55,17 +53,17 @@ int main(int argc, char *argv[])
 
 
 
-/* ------------------------------------------------------------------------------------------------------------- TEST: monte carlo search on arbritary state x
+///* ------------------------------------------------------------------------------------------------------------- TEST: monte carlo search on arbritary state x
     TTT_state x('X');
     int i;
-    LOOP(i,0,4) x.transition();
+    LOOP(i,0,2) x.transition();
     x.print_board();
 
 
     MCTree mytree;
     tuple<int, int> optimal;
 
-    optimal = mytree.UCT_search(x, 1.0/sqrt(2.0), 5); //satisfies Hoeffding Ineqality: 1.0/sqrt(2.0)
+    optimal = mytree.UCT_search(x, 1.0/sqrt(2.0), 1000); //satisfies Hoeffding Ineqality: 1.0/sqrt(2.0)
     cout << " \n \n \n optimal move : (" << std::get<0>(optimal) << "," << std::get<1>(optimal) << ") \n";
 
     vector<TNode*> root;
@@ -200,16 +198,15 @@ int main(int argc, char *argv[])
 /* ------------------------------------------------------------------------------TEST: teasting normal distribution
     std::random_device rd{};
     std::mt19937 gen{rd()};
-    std::normal_distribution<> n_sample{5, 2};
+    std::normal_distribution<> n_sample{1, 2};
 
-    cout << "\n sample: " << n_sample(gen) << "\n";
     int i;
-    LOOP(i, 0, 30)cout << std::round(n_sample(gen)) << "\n \n";
+    LOOP(i, 0, 30)cout << "sample rounded: " << std::round(n_sample(gen)) << "\n";
 
 //  -------------------------------------------------------------------------*/
 
 
-    //return 0;
-    return app.exec();
+    return 0;
+   //return app.exec();
 }
 

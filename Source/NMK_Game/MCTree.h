@@ -42,6 +42,7 @@ class MCTree
 
 	private:
 		TNode* root;
+        set< tuple<int, int> > U_0;
 
 };
 
