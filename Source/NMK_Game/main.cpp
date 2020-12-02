@@ -11,9 +11,9 @@
 
 int main(int argc, char *argv[])
 {
-    //QApplication app(argc, argv);
-    //MainWindow w;
-    //w.show();
+    QApplication app(argc, argv);
+    MainWindow w;
+    w.show();
 
 
 
@@ -53,22 +53,22 @@ int main(int argc, char *argv[])
 
 
 
-///* ------------------------------------------------------------------------------------------------------------- TEST: monte carlo search on arbritary state x
+/* ------------------------------------------------------------------------------------------------------------- TEST: monte carlo search on arbritary state x
     TTT_state x('X');
     int i;
-    LOOP(i,0,2) x.transition();
+    LOOP(i,0,4) x.transition();
     x.print_board();
 
 
     MCTree mytree;
     tuple<int, int> optimal;
 
-    optimal = mytree.UCT_search(x, 1.0/sqrt(2.0), 1000); //satisfies Hoeffding Ineqality: 1.0/sqrt(2.0)
+    optimal = mytree.UCT_search(x, 0.7, 8000); //satisfies Hoeffding Ineqality: 1.0/sqrt(2.0)
     cout << " \n \n \n optimal move : (" << std::get<0>(optimal) << "," << std::get<1>(optimal) << ") \n";
 
     vector<TNode*> root;
     root.push_back(mytree.get_root());
-    mytree.breath_first_print(root);
+    //mytree.breath_first_print(root);
 
 
 
@@ -76,9 +76,6 @@ int main(int argc, char *argv[])
     //TNode* node = mytree.get_root()->get_children()[0]->get_children()[0]->get_children()[2];
     //node->get_parent()->get_state().print_board();
 // --------------------------------------------------------------------------------------------------------------*/
-
-
-
 
 
 
@@ -206,7 +203,7 @@ int main(int argc, char *argv[])
 //  -------------------------------------------------------------------------*/
 
 
-    return 0;
-   //return app.exec();
+  //return 0;
+   return app.exec();
 }
 

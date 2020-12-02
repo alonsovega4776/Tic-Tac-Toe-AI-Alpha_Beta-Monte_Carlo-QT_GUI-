@@ -8,7 +8,7 @@
 #include "MCTree.h"
 
 #define EXPAND_DIST 'N'
-#define SIGMA        2.5
+#define SIGMA        0.85
 
 int MCTree::rel_level = 0;
 const int MCTree::print_space = 20;
@@ -184,7 +184,7 @@ TNode* MCTree::expand(TNode* v_t)														// random input control
 	std::uniform_int_distribution<> unif(0, U_unexpanded.size()-1);					// select control from uniform dist. in control space
     set< tuple<int, int> >::iterator rand_control_iter;
 
-    if (EXPAND_DIST == 'N')
+    if ((EXPAND_DIST == 'N') && (U_unexpanded.size() > 5))
     {
         // _____________________________ gettting AI's current plays _________________________
         //set< tuple<int, int> > U_0;
@@ -195,7 +195,7 @@ TNode* MCTree::expand(TNode* v_t)														// random input control
             LOOP(j_2, 0, TTT_SIZE)
                 U_0.insert(std::make_tuple(j_1, j_2));
         // _____________ for debugging purposes*/
-
+        //U_t = root->get_state().get_controlSpace();                                     // we only need the inital root state space
         set< tuple<int, int> > U_played;
         std::set_difference(U_0.begin(), U_0.end(),
                             U_t.begin(), U_t.end(),
@@ -207,27 +207,29 @@ TNode* MCTree::expand(TNode* v_t)														// random input control
              cout << std::get<0>(*set_iter2) << ", " << std::get<1>(*set_iter2) << "\n";
         // _____________ for debugging purposes*/
 
-        if ((U_played.size() != 0) && (U_unexpanded.size() > 10))
+        if ((U_played.size() != 0))
         {
-            set< tuple<int, int> > U_t_AI;                                                  // U_t_AI = {u in U_played: p(u) = -1 }, -1 beging the AI player
-            set< tuple<int, int> >::iterator set_iter;
+            //set< tuple<int, int> > U_t_AI;                                                  // U_t_AI = {u in U_played: p(u) = -1 }, -1 beging the AI player
+            //set< tuple<int, int> >::iterator set_iter;
             tuple<int, int> u_t;
-            MatInt x_t = v_t->get_state().get_state();
-            for (set_iter = U_played.begin(); set_iter != U_played.end(); set_iter++)
+            //MatInt x_t = v_t->get_state().get_state();
+            int i_1, i_2;
+            /*for (set_iter = U_played.begin(); set_iter != U_played.end(); set_iter++)
             {
-                if (U_t_AI.size() >= std::ceil(U_played.size()/2)) break;
+                if (U_t_AI.size() >= std::ceil(((double)U_played.size())/2)) break;
                 u_t = *set_iter;
-                if (x_t[std::get<0>(u_t)][std::get<1>(u_t)] == -1) U_t_AI.insert(u_t);
-            }
+                i_1 = std::get<0>(u_t);
+                i_2 = std::get<1>(u_t);
+                if (x_t[i_1][i_2] != 0) U_t_AI.insert(u_t);
+            }*/
             // _____________________________ gettting AI's current plays _________________________
-            std::uniform_int_distribution<> unif_defend(0, U_t_AI.size()-1);		    // select control from uniform dist. in control space
+            std::uniform_int_distribution<> unif_defend(0, U_played.size()-1);		    // select control from uniform dist. in control space
 
-            rand_control_iter = U_t_AI.begin();
+            rand_control_iter = U_played.begin();
             std::advance(rand_control_iter, unif_defend(gen_U));
 
             cout << "Normalizing about: ( " << std::get<0>(*rand_control_iter) << ", " << std::get<1>(*rand_control_iter) << ")";
 
-            int i_1, i_2;
             const double i_1_N = std::get<0>(*rand_control_iter);                     // sample mean from AI's plays
             const double i_2_N = std::get<1>(*rand_control_iter);
 
@@ -251,11 +253,12 @@ TNode* MCTree::expand(TNode* v_t)														// random input control
 
                 normal_count++;
                 NOTvalid_control = ((i_1 < 0) || (i_1 >= TTT_SIZE) || (i_2 < 0) || (i_2 >= TTT_SIZE) || (U_unexpanded.count(u_t) == 0));
-            }while ((normal_count < 50) && (NOTvalid_control));
+            }while ((normal_count < 25) && (NOTvalid_control));
 
             if (!NOTvalid_control)
             {
                 cout << "   Normal contorl: ( " << i_1 << ", " << i_2 << ") \n";
+                cout << "sample count: " << normal_count << "\n";
                 return expand(v_t, i_1, i_2);
             }
         }
